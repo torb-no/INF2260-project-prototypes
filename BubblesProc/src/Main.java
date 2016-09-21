@@ -7,6 +7,7 @@ public class Main extends PApplet {
 
     List<Bubble> bubbles;
     PVector wind;
+    float windNoiseOffset;
 
     String[] words = { "snill",
                         "prinsesse",
@@ -17,8 +18,17 @@ public class Main extends PApplet {
                         "glad",
                         "hoppe",
                         "gravemaskin",
-                        "malepensel"
+                        "tegning",
+                        "rockestjerne",
+                        "Steve Irwin",
+                        "modig",
+                        "astronaut",
+                        "prins",
+                        "pilot"
                      };
+
+    int bg;
+
 
     public void settings() {
         //size(800, 500);
@@ -34,15 +44,22 @@ public class Main extends PApplet {
             Bubble b = new Bubble(this);
             b.text = w;
             bubbles.add(b);
-
         }
         wind = new PVector(20f, 0);
         loop();
     }
 
     public void draw() {
-        wind.x = random(randomGaussian() * 40);
+        windNoiseOffset += 0.01;
+        wind.x = ( noise(windNoiseOffset) - 0.5f ) * 50;
+        //wind.x = random(-10, 10);
         background(100, 50, 200);
+
+        fill(0, 255, 150);
+        noStroke();
+        float sx = (width / 2) + wind.x;
+        float sw = abs(wind.x);
+        rect(sx, height-10, sw, 10);
 
         for (Bubble b : bubbles) {
             b.applyForce(wind);

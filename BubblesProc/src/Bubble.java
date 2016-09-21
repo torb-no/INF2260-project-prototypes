@@ -20,12 +20,13 @@ public class Bubble {
 
     public Bubble(PApplet p) {
         this.p = p;
-        this.mass = p.random(50, 400);
-        this.position = new PVector(p.random(radius(), p.width-radius() ), p.random(radius(), p.height-radius() ));
+        this.mass = p.abs(p.randomGaussian() * 250) + 75;
+
+        this.position = new PVector( p.random(radius(), p.width-radius()), p.random(radius(), p.height-radius()) );
 
         this.acceleration = new PVector();
         this.velocity = new PVector();
-        this.color = p.color(p.random(0,255), p.random(0,255), p.random(100, 255));
+        this.color = p.color(p.random(0,255), p.random(0,255), p.random(100, 175));
         this.oscillationSpeed = p.random(0.0001f, 0.15f);
 
     }
@@ -44,11 +45,13 @@ public class Bubble {
         position.y += oscilationMovement;
 
         // Friction
+/*
         PVector friction = velocity.copy();
-        friction.mult(-1);
+        friction.mult(-200);
         friction.normalize();
-        friction.mult(0.01f);
+        //friction.mult(0.1f);
         applyForce(friction);
+*/
 
         // Movement
         velocity.add(acceleration);
@@ -56,17 +59,26 @@ public class Bubble {
         position.add(velocity);
         acceleration.set(0, 0);
 
-        if (position.x - radius() < 0 || position.x + radius() > p.width) velocity.x *= -1;
-        if (position.y - radius() < 0 || position.y + radius() > p.width) velocity.y *= -1;
+        // Simple friction
+        velocity.mult(0.95f);
+
+        // Bouncy wall collision
+        if (position.x - radius() < 0) velocity.x = p.abs(velocity.x) * 3f;
+        if (position.x + radius() > p.width) velocity.x = -p.abs(velocity.x) * 3f;
+
+        if (position.y - radius() < 0) velocity.y = p.abs(velocity.y) * 3f;
+        if (position.y + radius() > p.height) velocity.y = -p.abs(velocity.y) * 3f;
 
     }
 
     public void draw() {
-        p.fill(color);
+        p.fill(color, 50f);
+        p.stroke(color);
+        p.strokeWeight(3);
         p.ellipse(position.x, position.y, diameter(), diameter());
 
         if (!text.isEmpty()) {
-            p.fill(255);
+            p.fill(color);
             p.textSize(diameter() / (text.length() / 1.5f) );
             p.textAlign(p.CENTER, p.CENTER);
             p.text(text, position.x, position.y);

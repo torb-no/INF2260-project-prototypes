@@ -20,7 +20,7 @@ public class Bubble {
 
     public Bubble(Main p) {
         this.p = p;
-        this.mass = p.abs(p.randomGaussian() * p.width/10) + p.width/34;
+        this.mass = p.abs(p.randomGaussian() * p.width/12) + p.width/34;
 
 
         do {
@@ -58,7 +58,7 @@ public class Bubble {
         velocity.mult(0.95f);
 
         if (isOverlappingOtherBubbles()) {
-            velocity.mult(-3f);
+            velocity.mult(-7f);
         }
 
         // Bouncy wall collision

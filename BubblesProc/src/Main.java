@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Main extends PApplet {
 
-    List<Bubble> bubbles;
+    public List<Bubble> bubbles;
     PVector wind;
     float windNoiseOffset;
 
@@ -39,6 +39,7 @@ public class Main extends PApplet {
         noLoop();
         colorMode(HSB);
         noStroke();
+        System.out.println(width);
         bubbles = new ArrayList<>();
         for (String w : words) {
             Bubble b = new Bubble(this);
@@ -51,7 +52,7 @@ public class Main extends PApplet {
 
     public void draw() {
         windNoiseOffset += 0.01;
-        wind.x = ( noise(windNoiseOffset) - 0.5f ) * 50;
+        wind.x = ( noise(windNoiseOffset) - 0.5f ) * 80;
         //wind.x = random(-10, 10);
         background(100, 50, 200);
 

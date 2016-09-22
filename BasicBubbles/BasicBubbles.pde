@@ -45,4 +45,30 @@ void draw() {
     b.update();
     b.draw();
   }
+  
+  // Render writing buffer
+  fill(255);
+  textSize(30);
+  textAlign(CENTER, CENTER);
+  text(writingBuffer, width/2, 20);
+}
+
+void keyTyped() {
+  if (key == ENTER || key == RETURN) {
+    Bubble b = new Bubble();
+    b.text = writingBuffer;
+    bubbles.add(b);
+    writingBuffer = "";
+  }
+  else if (key == BACKSPACE) {
+    try {
+      writingBuffer = writingBuffer.substring(0, writingBuffer.length()-1); 
+    }
+    catch (StringIndexOutOfBoundsException e) {
+      // No F’s given
+    }
+  }
+  else {
+    writingBuffer += key; 
+  }
 }

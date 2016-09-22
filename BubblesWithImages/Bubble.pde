@@ -10,7 +10,7 @@ class Bubble {
   double oscSpd;
   float oscTheta = 0;
   
-  String text = "";
+  PImage img;
   
   Bubble() {
     mass = abs(randomGaussian() * width/12) + width/34;
@@ -50,22 +50,38 @@ class Bubble {
   }
   
   void draw() {
+    /*
     fill(col, 50);
     stroke(col);
     strokeWeight(1);
     if (overlapping()) strokeWeight(10);
     ellipse(pos.x, pos.y, dia(), dia());
+    */
     
-    if (!text.isEmpty()) {
-      fill(col);
-      textSize(dia() / (text.length() / 1.5) );
-      textAlign(CENTER, CENTER);
-      text(text, pos.x, pos.y);
+    if (img != null) {
+      imageMode(CENTER);
+      image(img, pos.x, pos.y); 
+      
+      
     }
   }
   
   float rad() { return mass / 2; }
   float dia() { return mass; }
+  
+  void setImg(PImage image) {
+    img = image.copy();
+    img.resize((int)dia(), (int)dia());
+    
+    PGraphics mask = createGraphics((int)dia(), (int)dia());
+    mask.beginDraw();
+    mask.background(0);
+    mask.fill(255);
+    mask.ellipse( rad(), rad(), dia(), dia() );
+    mask.endDraw();
+    
+    img.mask(mask);
+  }
   
   void applyForce(PVector force) {
     PVector forceDivByMass = new PVector();

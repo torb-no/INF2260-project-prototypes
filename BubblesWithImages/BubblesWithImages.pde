@@ -1,30 +1,19 @@
 import java.util.ArrayList;
+import processing.video.*;
 
 ArrayList<Bubble> bubbles = new ArrayList();
 PVector wind = new PVector();
 float windNoiseOffset;
 
-String[] words = { "snill",
-                    "prinsesse",
-                    "brannmann",
-                    ":-)",
-                    "hjelpsom",
-                    "kul",
-                    "glad",
-                    "hoppe",
-                    "gravemaskin"
-                 };
-String writingBuffer = "";
+Capture cam;
+Boolean camVisible = true;
 
 void setup() {
   size(800, 500);
   colorMode(HSB);
-  
-  for (String w : words) {
-    Bubble b = new Bubble();
-    b.text = w;
-    bubbles.add(b);
-  }
+
+  cam = new Capture(this, Capture.list()[0]);
+  cam.start();
 }
 
 void draw() {
@@ -46,29 +35,26 @@ void draw() {
     b.draw();
   }
   
-  // Render writing buffer
-  fill(255);
-  textSize(30);
-  textAlign(CENTER, CENTER);
-  text(writingBuffer, width/2, 20);
+  // Draw camera image
+  if (camVisible) {
+    if (cam.available()) cam.read();
+    imageMode(CORNER);
+    // push, scale, pop and weird position in order to flip camera
+    pushMatrix();
+    scale(-1, 1);
+    image(cam, -width, 0, (width/10)*2, (height/10)*2);
+    popMatrix();
+  }
+  
 }
 
 void keyTyped() {
   if (key == ENTER || key == RETURN) {
     Bubble b = new Bubble();
-    b.text = writingBuffer;
+    b.setImg(cam);
     bubbles.add(b);
-    writingBuffer = "";
   }
-  else if (key == BACKSPACE) {
-    try {
-      writingBuffer = writingBuffer.substring(0, writingBuffer.length()-1); 
-    }
-    catch (StringIndexOutOfBoundsException e) {
-      // No F’s given
-    }
-  }
-  else {
-    writingBuffer += key; 
+  else if (key == ' ') {
+    camVisible = !camVisible;
   }
 }

@@ -6,13 +6,15 @@ PVector wind = new PVector();
 float windNoiseOffset;
 
 Capture cam;
+PGraphics camFlipped;
 Boolean camVisible = true;
 
 void setup() {
-  size(800, 500);
+  //size(800, 500);
+  fullScreen();
   colorMode(HSB);
 
-  cam = new Capture(this, Capture.list()[0]);
+  cam = new Capture(this, Capture.list()[1]);
   cam.start();
 }
 

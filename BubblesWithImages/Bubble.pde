@@ -73,6 +73,11 @@ class Bubble {
     img = image.copy();
     img.resize((int)dia(), (int)dia());
     
+    pushMatrix();
+    scale(1, -1);
+    image(cam, -width, -height, (width/10)*2, (height/10)*2);
+    popMatrix();
+    
     PGraphics mask = createGraphics((int)dia(), (int)dia());
     mask.beginDraw();
     mask.background(0);

@@ -17,7 +17,8 @@ String[] words = { "snill",
 String writingBuffer = "";
 
 void setup() {
-  size(800, 500);
+  //size(800, 500);
+  fullScreen();
   colorMode(HSB);
   
   for (String w : words) {

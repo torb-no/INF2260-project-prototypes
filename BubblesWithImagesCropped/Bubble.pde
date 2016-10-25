@@ -13,7 +13,7 @@ class Bubble {
   PImage img;
   
   Bubble() {
-    mass = abs(randomGaussian() * width/10) + width/10;
+    mass = abs(randomGaussian() * width/15) + width/10;
     
     do {
       pos = new PVector( random(rad(), width-rad()), 

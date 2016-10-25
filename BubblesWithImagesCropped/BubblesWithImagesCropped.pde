@@ -28,7 +28,7 @@ void setup() {
   
   popSound = new SoundFile(this, "boble 1 (low pitch).wav");
 
-  cam = new Capture(this, Capture.list()[1]);
+  cam = new Capture(this, Capture.list()[0]);
   cam.start();
 }
 
@@ -51,7 +51,7 @@ void draw() {
     b.draw();
   }
   
-  if (bubbles.size() > 12) {
+  if (bubbles.size() > 8) {
     bubbles.remove(0);
   }
 }
